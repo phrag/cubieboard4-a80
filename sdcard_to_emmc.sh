@@ -55,7 +55,7 @@ EOF
         fi
 
         sync
-        mkfs.vfat /dev/${card}p1
+        mkfs.ext4 /dev/${card}p1
         if [ $? -ne 0 ]; then
                 echo "err in mkfs p1" > ${ERROR_LOG}
                 led_when_err
@@ -110,19 +110,19 @@ install_emmc()
         #(cd /mnt/card; sudo tar  --exclude mnt -cp  *) |sudo tar -C  /mnt/emmc -xmp
 	if [ -f ${INSTALL_EMMC_FILE} ]; then
 		cp ${INSTALL_EMMC_FILE} /mnt/emmc${BACK_EMMC_FILE}
-		sed -i '148s/_card2//' /mnt/emmc${BACK_EMMC_FILE} 
-		sed -i '196s/your emmc flash/your Micro SD Card/' /mnt/emmc${BACK_EMMC_FILE} 
-		sed -i '196s/of Micro SD Card/of emmc flash/' /mnt/emmc${BACK_EMMC_FILE} 
-		sed -i '220s/emmc flash without //' /mnt/emmc${BACK_EMMC_FILE} 
-	
+		sed -i '148s/_card2//' /mnt/emmc${BACK_EMMC_FILE}
+		sed -i '196s/your emmc flash/your Micro SD Card/' /mnt/emmc${BACK_EMMC_FILE}
+		sed -i '196s/of Micro SD Card/of emmc flash/' /mnt/emmc${BACK_EMMC_FILE}
+		sed -i '220s/emmc flash without //' /mnt/emmc${BACK_EMMC_FILE}
+
 	fi
 	if [ -f ${BACK_EMMC_FILE} ]; then
 		cp ${BACK_EMMC_FILE} /mnt/emmc${INSTALL_EMMC_FILE}
-		sed -i '148s/u-boot-sun9iw1p1.bin/u-boot-sun9iw1p1_card2.bin/' /mnt/emmc${INSTALL_EMMC_FILE} 
-		sed -i '196s/your Micro SD Card/your emmc flash/' /mnt/emmc${INSTALL_EMMC_FILE} 
-		sed -i '196s/of emmc flash/of Micro SD Card/' /mnt/emmc${INSTALL_EMMC_FILE} 
-		sed -i '220s/the Micro SD Card/emmc flash without the Micro SD Card/' /mnt/emmc${INSTALL_EMMC_FILE} 
-	
+		sed -i '148s/u-boot-sun9iw1p1.bin/u-boot-sun9iw1p1_card2.bin/' /mnt/emmc${INSTALL_EMMC_FILE}
+		sed -i '196s/your Micro SD Card/your emmc flash/' /mnt/emmc${INSTALL_EMMC_FILE}
+		sed -i '196s/of emmc flash/of Micro SD Card/' /mnt/emmc${INSTALL_EMMC_FILE}
+		sed -i '220s/the Micro SD Card/emmc flash without the Micro SD Card/' /mnt/emmc${INSTALL_EMMC_FILE}
+
 	fi
 
         sed -i 's/install_emmc.sh/ /g' /mnt/emmc/etc/init.d/rcS
@@ -221,5 +221,3 @@ echo "All done. System can boot directly from emmc flash without the Micro SD Ca
 echo ""
 echo ""
 rm /root/boot-file/.install-exclude
-
-
